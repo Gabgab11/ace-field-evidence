@@ -486,6 +486,22 @@ input:focus,select:focus,textarea:focus{border-color:rgba(120,150,230,.9);box-sh
   .side{background:var(--surface);border:1px solid var(--line);backdrop-filter:var(--glass-blur);-webkit-backdrop-filter:var(--glass-blur)}
   .nav button.on{background:rgba(255,255,255,.8);color:#16202B}
 }
+
+/* ===== v2 fixes: theme buttons readable in dark, sensible on mobile ===== */
+.leaf{background:rgba(255,255,255,.7);color:#4F5E6E;box-shadow:none}
+[data-theme="dark"] .leaf{background:rgba(255,255,255,.08);color:#C9D6E3;border:1px solid rgba(255,255,255,.1)}
+[data-theme="dark"] .leaf:hover{color:#fff;background:rgba(255,255,255,.14)}
+[data-theme="dark"] .leaf.on{background:var(--green);color:#fff;border-color:transparent}
+[data-theme="dark"] .tree{background:rgba(255,255,255,.04);border:1px solid var(--line)}
+[data-theme="dark"] .tree::before,[data-theme="dark"] .tree::after,[data-theme="dark"] .leaf::after{background:#C9D6E3}
+@media(max-width:900px){
+  .themebox .tree{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:12px;max-width:none;border-radius:18px}
+  .themebox .tree::before,.themebox .tree::after,.themebox .leaf::after{display:none}
+  .themebox .leaf{border-radius:14px;padding:14px 10px;font-size:14px;transform:none!important}
+  .themebox .leaf.on{transform:none}
+  .timerow{gap:8px}
+  .timerow input[type=time]{min-width:0;flex:1}
+}
 </style>
 </head>
 <body>
@@ -577,7 +593,7 @@ const TEAM = [
 
 /* ---------- State (demo only, held in memory) ---------- */
 const S = {
-  authed:false, route:'dashboard', tpl:'Soil carbon', buildStatus:BUILD_ITEMS.map(x => x[1]), calibration:CALIBRATION.map(c => ({...c})), alerts:IMAGERY.map(i => i.alert), baselineStatus:BASELINES.map(b => b.status), batch:{ id:'BC-0042', stage:1, log:[] }, theme:{ mode:'system', dayStart:'06:00', nightStart:'18:00' }, sel:null, filter:'all', q:'', prefProject:null, nextId:106, tab:'account', stab:'account',
+  authed:false, route:'dashboard', tpl:'Soil carbon', buildStatus:BUILD_ITEMS.map(x => x[1]), calibration:CALIBRATION.map(c => ({...c})), alerts:IMAGERY.map(i => i.alert), baselineStatus:BASELINES.map(b => b.status), batch:{ id:'BC-0042', stage:1, log:[] }, online:true, queue:[], theme:{ mode:'system', dayStart:'06:00', nightStart:'18:00' }, sel:null, filter:'all', q:'', prefProject:null, nextId:106, tab:'account', stab:'account',
   user:{ name:'Demo User', email:'', role:'Admin', org:'African Carbon Exchange', title:'Programme lead', phone:'', tz:'Africa/Nairobi' },
   integrity:{ state:'idle', detail:'Not verified yet' }, tampered:null,
   settings:{ notifyReview:true, notifyFlags:true, notifyDigest:false, mfa:false, autoVerify:true, timeout:'30', retention:'7' },
@@ -764,7 +780,7 @@ function shell(body, title, sub, actions = ''){
         <div><div class="crumb">${esc(S.user.org)}</div></div>
         <div class="actions">
           <label class="search" aria-label="Search records"><span class="muted">Search</span><input id="q" value="${esc(S.q)}" placeholder="Record, plot or project" oninput="S.q=this.value;debounceSearch()"></label>
-          ${themeTree(true)}
+          ${netChip()}${themeTree(true)}
           <span class="roletag">${esc(S.user.role)}</span>
           <button class="btn sm" onclick="signOut()">Sign out</button>
         </div>
@@ -1131,6 +1147,7 @@ function settings(){
     </div>`;
   if (st === 'data') panel = `<div class="card">
       <div class="cardhead"><h3>Data and integrity</h3><small>Sealing and retention</small></div>
+      ${netRow()}
       ${sw('autoVerify','Check the chain every morning','Runs the full seal check and tells admins if any record has changed.')}
       <div class="setrow"><div><b>Record retention</b><p>How long records stay after a project closes. The standard may require a longer period (see open questions).</p></div>
         <select aria-label="Retention" onchange="S.settings.retention=this.value;toast('Retention set to '+this.value+' years')">${['5','7','10','15'].map(v => `<option value="${v}" ${s.retention===v?'selected':''}>${v} years</option>`).join('')}</select></div>
@@ -1315,7 +1332,7 @@ async function saveRecord(e){
     id, uid: newUid(), extra, projectId:d.projectId, type:d.type, source:d.source, ref:d.ref||'', periodStart:d.periodStart||'', periodEnd:d.periodEnd||'',
     plot:d.plot||'', value:d.value||'', unit:d.unit||'', lat:+d.lat||0, lon:+d.lon||0, date:d.date||'',
     method:d.method||'', collector:d.collector||'', notes:d.notes||'',
-    evidence: files.map(x => ({ name:x.name, type:x.type, url:URL.createObjectURL(x) })),
+    evidence: files.map(x => ({ name:x.name, type:x.type, url:URL.createObjectURL(x), blob:x })),
     status: mode==='submit' ? 'submitted' : 'draft',
     history: [[nowStr(), S.user.role, mode==='submit' ? 'Submitted' : 'Saved draft', '']]
   };
@@ -1351,7 +1368,7 @@ function addEvidence(id){
   const r = find(id), files = [...($('addFiles')?.files || [])];
   if (!r || !files.length) return toast('Choose a file first');
   if (!can('submit') || (r.status!=='draft' && r.status!=='changes')) return toast('Evidence can be added to drafts or records with changes requested');
-  files.forEach(x => r.evidence.push({ name:x.name, type:x.type, url:URL.createObjectURL(x) }));
+  files.forEach(x => r.evidence.push({ name:x.name, type:x.type, url:URL.createObjectURL(x), blob:x }));
   r.history.push([nowStr(), S.user.role, 'Evidence added', files.map(x => x.name).join(', ')]);
   toast(`${files.length} file(s) attached`); render();
 }
@@ -1522,6 +1539,7 @@ if (!CanvasRenderingContext2D.prototype.roundRect) { CanvasRenderingContext2D.pr
 
 /* ---------- Render ---------- */
 function render(){
+  persist();
   const root = $('root');
   if (!S.authed){ root.innerHTML = loginView(); return; }
   const views = { dashboard, projects, entry, records, record:recordView, audit:auditView, profile, settings, sites:sitesView, baselines:baselinesView, integrity:integrityView, reports:reportsView, status:statusView };
@@ -1541,9 +1559,67 @@ setInterval(() => {
   }
 }, 2500);
 
+
+/* ---------- Local storage, offline mode and queue (prototype) ---------- */
+let LOADED = false, DB = null, _pt = null;
+function dbOpen(){ return new Promise((res, rej) => { const r = indexedDB.open('ace-field-evidence', 1);
+  r.onupgradeneeded = () => r.result.createObjectStore('kv'); r.onsuccess = () => res(r.result); r.onerror = () => rej(r.error); }); }
+function dbGet(k){ return new Promise(res => { try { const t = DB.transaction('kv').objectStore('kv').get(k); t.onsuccess = () => res(t.result); t.onerror = () => res(undefined); } catch(e){ res(undefined); } }); }
+function dbSet(k, v){ try { DB.transaction('kv', 'readwrite').objectStore('kv').put(v, k); } catch(e){} }
+function snapshot(){
+  return { v:1, uidN:UID_N, tampered:S.tampered,
+    records: S.records.map(r => ({ ...r, evidence: r.evidence.map(e => ({ name:e.name, type:e.type, blob:e.blob })) })),
+    nextId:S.nextId, calibration:S.calibration, buildStatus:S.buildStatus, alerts:S.alerts, baselineStatus:S.baselineStatus,
+    batch:S.batch, theme:S.theme, settings:S.settings, queue:S.queue, online:S.online, user:S.user };
+}
+function restore(d){
+  if (!d || !d.records) return false;
+  S.records = d.records.map(r => ({ ...r, evidence: (r.evidence || []).map(e => ({ name:e.name, type:e.type, blob:e.blob, url: e.blob ? URL.createObjectURL(e.blob) : null })) }));
+  ['nextId','calibration','buildStatus','alerts','baselineStatus','batch','theme','settings','queue','online','user','tampered'].forEach(k => { if (d[k] !== undefined) S[k] = d[k]; });
+  if (d.uidN) UID_N = d.uidN;
+  return true;
+}
+function persist(){ if (!LOADED || !DB) return; clearTimeout(_pt); _pt = setTimeout(() => dbSet('state', snapshot()), 150); }
+async function boot(){
+  try {
+    DB = await dbOpen();
+    const d = await dbGet('state');
+    if (restore(d)) S.integrity = { state:'idle', detail:'Restored from this device. Verify to confirm the chain.' };
+    else await sealAll();
+  } catch(e) { DB = null; await sealAll(); }
+  LOADED = true; render();
+}
+function netChip(){
+  const n = S.queue.length;
+  return `<button class="chip ${S.online ? 'ok' : 'warn'}" onclick="toggleOnline()" title="Switch between online and offline mode">${S.online ? 'Online' : 'Offline'}${n ? ' · ' + n + ' queued' : ''}</button>`;
+}
+function netRow(){
+  const n = S.queue.length, phone = navigator.onLine;
+  return `<div class="setrow"><div><b>Offline mode</b><p>When on, the app makes no connection. Changes are saved on this device and queued. Turning it off syncs the queue. Phone connection: ${phone ? 'available' : 'none'}. ${n ? n + ' change' + (n > 1 ? 's' : '') + ' waiting to sync.' : 'Nothing waiting.'}</p></div>
+    <button class="switch ${S.online ? '' : 'on'}" role="switch" aria-checked="${!S.online}" aria-label="Offline mode" onclick="toggleOnline()"></button></div>`;
+}
+function toggleOnline(){
+  if (S.online){ S.online = false; toast('Offline: changes are saved on this device'); }
+  else {
+    S.online = true; const n = S.queue.length; S.queue = [];
+    toast(n ? `Online. Synced ${n} change${n > 1 ? 's' : ''}` : 'Online');
+  }
+  render();
+}
+function queueChange(label){ if (!S.online){ S.queue.push({ at:nowStr(), label }); render(); } }
+
+const _saveRecord = saveRecord;
+saveRecord = async function(e){ const n = S.records.length; await _saveRecord(e); if (S.records.length > n) queueChange('Saved ' + S.records[S.records.length-1].id); };
+const _submitExisting = submitExisting;
+submitExisting = function(id){ const r = find(id), b = r && r.status; _submitExisting(id); if (r && r.status !== b) queueChange(id + ' submitted'); };
+const _review = review;
+review = function(id, act){ const r = find(id), b = r && r.status; _review(id, act); if (r && r.status !== b) queueChange(id + ' ' + r.status); };
+const _addEvidence = addEvidence;
+addEvidence = function(id){ const r = find(id), n = r ? r.evidence.length : 0; _addEvidence(id); if (r && r.evidence.length > n) queueChange(id + ' evidence added'); };
+
 applyTheme();
-(async () => { await sealAll(); render(); })();
-render();
+boot();
+
 </script>
 </body>
 </html>
