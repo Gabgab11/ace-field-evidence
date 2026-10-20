@@ -522,6 +522,7 @@ input:focus,select:focus,textarea:focus{border-color:rgba(120,150,230,.9);box-sh
 .anim-sub{font-size:13px;color:#6B7A70;opacity:0;animation:anim-fade .6s 3s ease forwards;margin-top:4px}
 @keyframes anim-up{to{opacity:1;transform:none}}
 @keyframes anim-fade{to{opacity:1}}
+@keyframes blink{50%{opacity:0}}
 </style>
 </head>
 <body>
@@ -1554,8 +1555,6 @@ if (!CanvasRenderingContext2D.prototype.roundRect) { CanvasRenderingContext2D.pr
   
   window.show = show;
   show(1);
-})();
-@keyframes blink{50%{opacity:0}}
 })();
 
 /* ---------- Render ---------- */
