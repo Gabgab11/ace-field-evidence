@@ -478,20 +478,7 @@ input[type=checkbox]{width:18px;height:18px;accent-color:var(--green)}
     <section class="scr" id="s2">
       <div style="position:absolute;left:0;right:0;top:0;bottom:0;background:linear-gradient(135deg,#E8F4EC 0%,#F0F8F4 100%);padding:40px 30px;display:flex;flex-direction:column;justify-content:center;overflow-y:auto">
         <div class="h1" style="font-size:26px;margin-bottom:24px;color:#0E1A14">Did you know?</div>
-        <div style="display:flex;flex-direction:column;gap:20px">
-          <div style="background:#fff;border-radius:16px;padding:18px;box-shadow:0 4px 12px rgba(14,26,20,.08)">
-            <div style="font-weight:700;color:#2F7D4F;font-size:14px;margin-bottom:6px">🌱 Trees & Carbon</div>
-            <div style="font-size:14px;color:#3F4F45;line-height:1.6">A mature tree absorbs ~20kg of CO₂ annually while releasing oxygen for 2 people.</div>
-          </div>
-          <div style="background:#fff;border-radius:16px;padding:18px;box-shadow:0 4px 12px rgba(14,26,20,.08)">
-            <div style="font-weight:700;color:#2F7D4F;font-size:14px;margin-bottom:6px">📊 Soil Carbon</div>
-            <div style="font-size:14px;color:#3F4F45;line-height:1.6">Soils contain 3x more carbon than the atmosphere. Restoring degraded land locks away carbon for centuries.</div>
-          </div>
-          <div style="background:#fff;border-radius:16px;padding:18px;box-shadow:0 4px 12px rgba(14,26,20,.08)">
-            <div style="font-weight:700;color:#2F7D4F;font-size:14px;margin-bottom:6px">🔗 Verified Impact</div>
-            <div style="font-size:14px;color:#3F4F45;line-height:1.6">Field evidence + verification + immutable records = trusted carbon credits that make a real difference.</div>
-          </div>
-        </div>
+        <div id="triviaContainer" style="display:flex;flex-direction:column;gap:20px"></div>
         <button class="btn-splash" onclick="splashShow(3)" style="margin-top:36px">Get started  →</button>
       </div>
     </section>
@@ -551,12 +538,51 @@ input[type=checkbox]{width:18px;height:18px;accent-color:var(--green)}
 
 <script>
 /* ---------- Splash Screen (Clickable, No Auto-Play) ---------- */
+const TRIVIA = [
+  { emoji:'🌱', title:'Trees & Carbon', text:'A mature tree absorbs ~20kg of CO₂ annually while releasing oxygen for 2 people.' },
+  { emoji:'📊', title:'Soil Carbon', text:'Soils contain 3x more carbon than the atmosphere. Restoring degraded land locks away carbon for centuries.' },
+  { emoji:'🔗', title:'Verified Impact', text:'Field evidence + verification + immutable records = trusted carbon credits that make a real difference.' },
+  { emoji:'🌍', title:'Global Crisis', text:'Deforestation accounts for ~10% of global carbon emissions. Trees are our best natural defense.' },
+  { emoji:'♻️', title:'Carbon Cycle', text:'Plants convert CO₂ into biomass. When we preserve forests, we interrupt the carbon release cycle.' },
+  { emoji:'🌿', title:'Regeneration', text:'Degraded soils can be restored in 5-10 years through proper land management and carbon farming.' },
+  { emoji:'📈', title:'Monitoring', text:'Real-time field data lets us track carbon sequestration as it happens, not just estimate it.' },
+  { emoji:'🔐', title:'Immutable Records', text:'Blockchain-verified chains ensure carbon credits cannot be double-counted or forged.' },
+  { emoji:'🌳', title:'Biochar Benefits', text:'Biochar sequesters carbon for 1000+ years while improving soil fertility and water retention.' },
+  { emoji:'🦋', title:'Biodiversity', text:'Carbon-rich ecosystems support more biodiversity—healthy soils = healthy habitats.' },
+  { emoji:'💰', title:'Nature Credits', text:'Verified carbon credits create income for smallholder farmers while fighting climate change.' },
+  { emoji:'🌾', title:'Agroforestry', text:'Mixing trees with crops increases carbon storage by 40% compared to monoculture farming.' },
+  { emoji:'🧪', title:'Soil Testing', text:'Regular soil analysis tracks organic matter, showing measurable progress in carbon restoration.' },
+  { emoji:'📍', title:'Location Matters', text:'Tropical soils have the highest carbon sequestration potential—priority for restoration.' },
+  { emoji:'🔄', title:'Circular Economy', text:'Agricultural waste becomes biochar, biochar becomes soil amendment, soil becomes productivity.' },
+  { emoji:'👥', title:'Community Impact', text:'Local communities are the stewards of carbon-rich ecosystems—they know the land best.' },
+  { emoji:'🌊', title:'Blue Carbon', text:'Mangroves sequester carbon 40x faster than forests. Coastal restoration is climate action.' },
+  { emoji:'📱', title:'Digital MRV', text:'Mobile field apps + GPS + offline-first tech make carbon verification accessible everywhere.' },
+  { emoji:'⚡', title:'Energy & Soil', text:'Regenerative agriculture reduces tilling, saving fuel and locking more carbon in the ground.' },
+  { emoji:'🎯', title:'Measurable Goals', text:'Every ton of carbon sequestered is independently verified—transparency builds trust.' }
+];
+
+function shuffleTrivia(){ return TRIVIA.sort(()=>Math.random()-0.5); }
+function getRandomTrivia(count=3){ const shuffled = shuffleTrivia(); return shuffled.slice(0, count); }
+
 let splashTimers=[];
 function splashShow(n){
   splashTimers.forEach(clearTimeout); splashTimers=[];
   document.querySelectorAll('.scr').forEach((s,i)=>s.classList.toggle('on', i===n-1));
+  if(n===2) loadTrivia();
   if(n===4) splashCountUp();
   if(n===3) splashTypeEmail();
+}
+
+function loadTrivia(){
+  const triviaContainer = document.getElementById('triviaContainer');
+  if(!triviaContainer) return;
+  const trivia = getRandomTrivia(3);
+  triviaContainer.innerHTML = trivia.map(t => `
+    <div style="background:#fff;border-radius:16px;padding:18px;box-shadow:0 4px 12px rgba(14,26,20,.08)">
+      <div style="font-weight:700;color:#2F7D4F;font-size:14px;margin-bottom:6px">${t.emoji} ${t.title}</div>
+      <div style="font-size:14px;color:#3F4F45;line-height:1.6">${t.text}</div>
+    </div>
+  `).join('');
 }
 function splashCountUp(){
   document.querySelectorAll('.num').forEach(el=>{
