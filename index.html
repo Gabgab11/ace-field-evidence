@@ -474,29 +474,25 @@ input[type=checkbox]{width:18px;height:18px;accent-color:var(--green)}
       </div>
     </section>
 
-    <!-- 2 welcome -->
+    <!-- 2 trivia -->
     <section class="scr" id="s2">
-      <div class="land">
-        <svg viewBox="0 0 390 560" preserveAspectRatio="xMidYMid slice">
-          <defs><linearGradient id="sk" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#B6E2EE"/><stop offset="1" stop-color="#F5F3E2"/></linearGradient></defs>
-          <rect width="390" height="560" fill="url(#sk)"/>
-          <circle class="sun" cx="300" cy="110" r="26" fill="#F9D27A"/>
-          <g class="cloud"><ellipse cx="60" cy="110" rx="34" ry="18" fill="#fff"/><ellipse cx="88" cy="100" rx="26" ry="20" fill="#fff"/></g>
-          <g class="cloud b"><ellipse cx="170" cy="70" rx="28" ry="15" fill="#fff"/><ellipse cx="192" cy="62" rx="22" ry="17" fill="#fff"/></g>
-          <path d="M0 330 C60 290 120 300 190 330 S320 310 390 330 L390 560 L0 560Z" fill="#A9D19A"/>
-          <g transform="translate(70 230)"><rect x="-2" y="0" width="4" height="66" fill="#fafaf8"/><g class="blade s"><rect x="-22" y="-2" width="44" height="4" rx="2" fill="#fff"/><rect x="-2" y="-22" width="4" height="44" rx="2" fill="#fff"/></g></g>
-          <g transform="translate(300 220)"><rect x="-3" y="0" width="6" height="110" fill="#fafaf8"/><g class="blade"><rect x="-36" y="-2" width="72" height="5" rx="2" fill="#fff"/><rect x="-2" y="-36" width="5" height="72" rx="2" fill="#fff"/></g></g>
-          <path d="M0 380 C80 350 180 360 260 382 S360 370 390 380 L390 560 L0 560Z" fill="#7DB979"/>
-          <g fill="#4E8D5C"><circle cx="30" cy="368" r="18"/><circle cx="66" cy="364" r="20"/><circle cx="110" cy="370" r="16"/><circle cx="160" cy="366" r="19"/><circle cx="210" cy="368" r="17"/><circle cx="262" cy="364" r="20"/><circle cx="318" cy="368" r="17"/><circle cx="366" cy="366" r="18"/></g>
-          <path d="M0 440 C120 420 260 436 390 428 L390 560 L0 560Z" fill="#5FA46A"/>
-        </svg>
-      </div>
-      <div class="sheet">
-        <div class="h1">Your carbon records,<br>proven and sealed.</div>
-        <div class="p">Field data, checks and audit trail in one place.</div>
-        <div class="dots"><i class="on"></i><i></i><i></i></div>
-        <button class="btn-splash" onclick="splashShow(3)">Get started  →</button>
-        <div class="link" onclick="splashShow(3)">Already have an account? Sign in</div>
+      <div style="position:absolute;left:0;right:0;top:0;bottom:0;background:linear-gradient(135deg,#E8F4EC 0%,#F0F8F4 100%);padding:40px 30px;display:flex;flex-direction:column;justify-content:center;overflow-y:auto">
+        <div class="h1" style="font-size:26px;margin-bottom:24px;color:#0E1A14">Did you know?</div>
+        <div style="display:flex;flex-direction:column;gap:20px">
+          <div style="background:#fff;border-radius:16px;padding:18px;box-shadow:0 4px 12px rgba(14,26,20,.08)">
+            <div style="font-weight:700;color:#2F7D4F;font-size:14px;margin-bottom:6px">🌱 Trees & Carbon</div>
+            <div style="font-size:14px;color:#3F4F45;line-height:1.6">A mature tree absorbs ~20kg of CO₂ annually while releasing oxygen for 2 people.</div>
+          </div>
+          <div style="background:#fff;border-radius:16px;padding:18px;box-shadow:0 4px 12px rgba(14,26,20,.08)">
+            <div style="font-weight:700;color:#2F7D4F;font-size:14px;margin-bottom:6px">📊 Soil Carbon</div>
+            <div style="font-size:14px;color:#3F4F45;line-height:1.6">Soils contain 3x more carbon than the atmosphere. Restoring degraded land locks away carbon for centuries.</div>
+          </div>
+          <div style="background:#fff;border-radius:16px;padding:18px;box-shadow:0 4px 12px rgba(14,26,20,.08)">
+            <div style="font-weight:700;color:#2F7D4F;font-size:14px;margin-bottom:6px">🔗 Verified Impact</div>
+            <div style="font-size:14px;color:#3F4F45;line-height:1.6">Field evidence + verification + immutable records = trusted carbon credits that make a real difference.</div>
+          </div>
+        </div>
+        <button class="btn-splash" onclick="splashShow(3)" style="margin-top:36px">Get started  →</button>
       </div>
     </section>
 
@@ -517,7 +513,7 @@ input[type=checkbox]{width:18px;height:18px;accent-color:var(--green)}
         <div class="p" style="margin-top:6px">Sign in to your field workspace</div>
         <div class="field" id="fEmail"><label>Work email</label><div id="emailTxt">name@organisation.org</div></div>
         <div class="field" id="fPw"><label>Password</label><div>••••••••</div></div>
-        <button class="btn-splash dark" onclick="splashShow(4)">Sign in</button>
+        <button class="btn-splash dark" onclick="splashTypeEmail(); setTimeout(splashEnd, 1500)">Sign in</button>
         <div class="link">Forgot password?</div>
       </div>
     </section>
