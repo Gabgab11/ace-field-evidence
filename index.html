@@ -380,157 +380,10 @@ input[type=checkbox]{width:18px;height:18px;accent-color:var(--green)}
   .tablewrap{-webkit-overflow-scrolling:touch}
   .setrow{flex-wrap:wrap}
 }
-
-/* ===== GLASS THEME (frosted panels over soft blue/peach mesh) ===== */
-:root{
-  --bg:#E6ECF6; --surface:rgba(255,255,255,.52); --soft:rgba(255,255,255,.38); --line:rgba(255,255,255,.7);
-  --ink:#16202B; --text:#16202B; --muted:#5F6E7E; --green:#2F7D4F; --green-soft:rgba(47,125,79,.14);
-  --sky:#2F6F92; --clay:#B5472C;
-  --glass-blur:blur(26px) saturate(170%);
-  --shadow:0 1px 0 rgba(255,255,255,.8) inset,0 18px 48px rgba(70,95,140,.14);
-  --topbg:rgba(255,255,255,.35);
-  --mesh:
-    radial-gradient(900px 600px at 8% 0%,rgba(150,185,245,.75),transparent 60%),
-    radial-gradient(800px 600px at 100% 8%,rgba(250,196,160,.8),transparent 60%),
-    radial-gradient(900px 700px at 70% 100%,rgba(165,190,245,.7),transparent 60%),
-    radial-gradient(700px 500px at 0% 100%,rgba(248,214,196,.7),transparent 60%),
-    linear-gradient(180deg,#EDF1F8,#F6EAE2);
-}
-[data-theme="dark"]{
-  --bg:#0E1622; --surface:rgba(30,42,60,.5); --soft:rgba(255,255,255,.07); --line:rgba(255,255,255,.12);
-  --ink:#EEF3F8; --text:#EEF3F8; --muted:#9FB0C2; --green:#6CC48E; --green-soft:rgba(108,196,142,.16);
-  --shadow:0 1px 0 rgba(255,255,255,.08) inset,0 18px 48px rgba(0,0,0,.4);
-  --topbg:rgba(20,30,45,.4);
-  --mesh:
-    radial-gradient(900px 600px at 5% 0%,rgba(70,100,170,.55),transparent 60%),
-    radial-gradient(800px 600px at 100% 10%,rgba(190,110,80,.4),transparent 60%),
-    radial-gradient(900px 700px at 70% 100%,rgba(60,90,160,.45),transparent 60%),
-    linear-gradient(180deg,#0E1622,#1A1620);
-}
-html{background:var(--bg)}
-body{background:var(--mesh) fixed;font-weight:400;min-height:100vh}
-h1,h2{font-weight:500;letter-spacing:-.035em}
-h3{font-weight:600}
-.signin-page,.login{background:transparent}
-.signin-card{background:var(--surface);backdrop-filter:var(--glass-blur);-webkit-backdrop-filter:var(--glass-blur);border:1px solid var(--line);border-radius:28px;padding:40px 34px;box-shadow:var(--shadow)}
-
-/* glass surfaces */
-.card,.mapcard,.profile-top,.hero-band .intro,.side,.topbar,.search,.tabs,.tree,.toast,.floatcard,.ev div,.act .ic{
-  backdrop-filter:var(--glass-blur);-webkit-backdrop-filter:var(--glass-blur)}
-.card,.mapcard,.profile-top{background:var(--surface);border:1px solid var(--line);box-shadow:var(--shadow);border-radius:24px}
-.hero-band .intro{background:linear-gradient(180deg,rgba(255,255,255,.12),rgba(255,255,255,.55)),var(--art) center 40%/cover no-repeat;border:1px solid var(--line)}
-[data-theme="dark"] .hero-band .intro{background:linear-gradient(180deg,rgba(20,30,45,.2),rgba(20,30,45,.7)),var(--art) center 40%/cover no-repeat}
-[data-theme="dark"] .hero-band .intro p{color:var(--muted)}
-.mapcard svg{background:rgba(255,255,255,.35)}
-[data-theme="dark"] .mapcard svg{background:rgba(255,255,255,.05)}
-.side{background:var(--surface);border-right:1px solid var(--line)}
-.topbar{background:var(--topbg);border-bottom:1px solid var(--line)}
-.me{background:var(--soft);border:1px solid var(--line)}
-.me:hover{background:var(--surface)}
-.nav button{font-weight:500}
-.nav button:hover{background:var(--soft)}
-.nav button.on{background:rgba(255,255,255,.75);color:#16202B;box-shadow:0 4px 14px rgba(70,95,140,.15)}
-[data-theme="dark"] .nav button.on{background:rgba(255,255,255,.14);color:#fff}
-.search,.tabs{background:var(--soft);border:1px solid var(--line)}
-.tabs button.on{background:rgba(255,255,255,.8);color:#16202B;box-shadow:0 2px 8px rgba(70,95,140,.15)}
-[data-theme="dark"] .tabs button.on{background:rgba(255,255,255,.16);color:#fff}
-
-/* controls */
-input,select,textarea{background:rgba(255,255,255,.55);border:1px solid rgba(255,255,255,.8);backdrop-filter:blur(10px)}
-[data-theme="dark"] input,[data-theme="dark"] select,[data-theme="dark"] textarea{background:rgba(255,255,255,.07);border-color:rgba(255,255,255,.14)}
-input:disabled{background:var(--soft)}
-input:focus,select:focus,textarea:focus{border-color:rgba(120,150,230,.9);box-shadow:0 0 0 4px rgba(120,150,230,.22)}
-.btn{background:rgba(255,255,255,.6);border:1px solid rgba(255,255,255,.85);backdrop-filter:blur(10px);font-weight:500}
-.btn:hover{background:rgba(255,255,255,.85);border-color:#fff}
-[data-theme="dark"] .btn{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.16)}
-[data-theme="dark"] .btn:hover{background:rgba(255,255,255,.14)}
-.btn.primary{background:#16202B;border-color:#16202B;color:#fff;box-shadow:0 8px 20px rgba(22,32,43,.25)}
-.btn.primary:hover{background:#25344a}
-[data-theme="dark"] .btn.primary{background:#EEF3F8;border-color:#EEF3F8;color:#0E1622}
-.btn.danger{background:rgba(253,236,230,.7)}
-[data-theme="dark"] .btn.danger{background:rgba(224,138,114,.14)}
-.switch{background:rgba(120,135,155,.35)}
-.leaf{background:rgba(255,255,255,.6);box-shadow:none}
-.leaf.on{background:var(--green);color:#fff}
-
-/* tables, pills, rows */
-.table th{font-weight:500}
-.table th,.table td{border-bottom:1px solid rgba(255,255,255,.55)}
-[data-theme="dark"] .table th,[data-theme="dark"] .table td{border-bottom-color:rgba(255,255,255,.08)}
-.table tr.row:hover td{background:rgba(255,255,255,.4)}
-[data-theme="dark"] .table tr.row:hover td{background:rgba(255,255,255,.06)}
-.pill,.chip{backdrop-filter:blur(8px)}
-.pill.submitted{background:rgba(47,111,146,.14)}
-.pill.changes{background:rgba(224,169,59,.2)}
-.pill.rejected{background:rgba(181,71,44,.14)}
-.chip.warn{background:rgba(224,169,59,.2)}
-.chip.bad{background:rgba(181,71,44,.14)}
-.chip.mute{background:rgba(120,135,155,.16)}
-.notice{background:rgba(224,169,59,.16);border:1px solid rgba(224,169,59,.3)}
-.code{background:rgba(255,255,255,.4);border:1px solid rgba(255,255,255,.6)}
-[data-theme="dark"] .code{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.1)}
-.pipe .track,.proj .bar{background:rgba(255,255,255,.55)}
-[data-theme="dark"] .pipe .track,[data-theme="dark"] .proj .bar{background:rgba(255,255,255,.1)}
-.pipe .track i{background:linear-gradient(90deg,#7C9CF0,#F0A67C)}
-.kpi .num{font-weight:400;letter-spacing:-.045em}
-.proj .stats b,.kvs b{font-weight:400}
-.act{border-bottom-color:rgba(255,255,255,.55)}
-.act .ic{background:rgba(255,255,255,.55)}
-[data-theme="dark"] .act .ic{background:rgba(255,255,255,.1)}
-.hist .h,.setrow{border-bottom-color:rgba(255,255,255,.55)}
-.review{border-top-color:rgba(255,255,255,.6)}
-
-/* toast + mobile bar */
-.toast{background:rgba(22,32,43,.82);border:1px solid rgba(255,255,255,.15)}
-@media(max-width:900px){
-  .side{background:var(--surface);border:1px solid var(--line);backdrop-filter:var(--glass-blur);-webkit-backdrop-filter:var(--glass-blur)}
-  .nav button.on{background:rgba(255,255,255,.8);color:#16202B}
-}
-
-/* ===== v2 fixes: theme buttons readable in dark, sensible on mobile ===== */
-.leaf{background:rgba(255,255,255,.7);color:#4F5E6E;box-shadow:none}
-[data-theme="dark"] .leaf{background:rgba(255,255,255,.08);color:#C9D6E3;border:1px solid rgba(255,255,255,.1)}
-[data-theme="dark"] .leaf:hover{color:#fff;background:rgba(255,255,255,.14)}
-[data-theme="dark"] .leaf.on{background:var(--green);color:#fff;border-color:transparent}
-[data-theme="dark"] .tree{background:rgba(255,255,255,.04);border:1px solid var(--line)}
-[data-theme="dark"] .tree::before,[data-theme="dark"] .tree::after,[data-theme="dark"] .leaf::after{background:#C9D6E3}
-@media(max-width:900px){
-  .themebox .tree{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:12px;max-width:none;border-radius:18px}
-  .themebox .tree::before,.themebox .tree::after,.themebox .leaf::after{display:none}
-  .themebox .leaf{border-radius:14px;padding:14px 10px;font-size:14px;transform:none!important}
-  .themebox .leaf.on{transform:none}
-  .timerow{gap:8px}
-  .timerow input[type=time]{min-width:0;flex:1}
-}
-
-/* Animation demo styles */
-#phone{position:absolute;left:50%;top:50%;width:390px;height:844px;transform:translate(-50%,-50%);overflow:hidden;background:#F5F6F2;border-radius:0}
-@media (max-width:500px){#phone{width:100vw;height:100vh;border-radius:0}}
-.anim-scr{position:absolute;inset:0;opacity:0;visibility:hidden;transition:opacity .6s ease,visibility .6s}
-.anim-scr.on{opacity:1;visibility:visible}
-.anim-splash{background:linear-gradient(#E8F4EC,#F8F5E6);display:flex;flex-direction:column;align-items:center;justify-content:center}
-.anim-sprout{width:200px;height:260px}
-.anim-sprout .stem{stroke:#2F7D4F;stroke-width:5;fill:none;stroke-linecap:round;stroke-dasharray:200;stroke-dashoffset:200;animation:anim-grow 1.3s .2s ease-out forwards}
-.anim-sprout .leaf{transform-origin:100px 150px;transform:scale(0);animation:anim-pop .6s cubic-bezier(.2,1.6,.4,1) forwards}
-.anim-sprout .l1{animation-delay:1.2s}.anim-sprout .l2{animation-delay:1.45s}
-.anim-sprout .ground{transform:scaleX(0);transform-origin:center;animation:anim-ground .9s .1s ease-out forwards}
-@keyframes anim-grow{to{stroke-dashoffset:0}}
-@keyframes anim-pop{to{transform:scale(1)}}
-@keyframes anim-ground{to{transform:scaleX(1)}}
-.anim-wordmark{margin-top:14px;font-size:58px;font-weight:800;color:#0E1A14;letter-spacing:-.02em;opacity:0;transform:translateY(14px);animation:anim-up .7s 2.1s ease forwards}
-.anim-tagline{font-size:17px;font-weight:700;color:#0E1A14;opacity:0;transform:translateY(10px);animation:anim-up .6s 2.6s ease forwards;margin-top:6px}
-.anim-sub{font-size:13px;color:#6B7A70;opacity:0;animation:anim-fade .6s 3s ease forwards;margin-top:4px}
-@keyframes anim-up{to{opacity:1;transform:none}}
-@keyframes anim-fade{to{opacity:1}}
-@keyframes blink{50%{opacity:0}}
 </style>
 </head>
 <body>
-<div id="splash" role="status" aria-label="Loading Field Evidence">
-  <div id="phone" style="position:absolute;left:50%;top:50%;width:390px;height:844px;transform:translate(-50%,-50%);overflow:hidden;background:#F5F6F2;border-radius:0;display:flex;align-items:center;justify-content:center">
-    <div id="animPhone" style="width:100%;height:100%;position:relative;overflow:hidden"></div>
-  </div>
-</div>
+<div id="splash" role="status" aria-label="Loading Field Evidence"><canvas id="splashCanvas"></canvas></div>
 <div id="root"></div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
@@ -618,7 +471,7 @@ const TEAM = [
 
 /* ---------- State (demo only, held in memory) ---------- */
 const S = {
-  authed:false, route:'dashboard', tpl:'Soil carbon', buildStatus:BUILD_ITEMS.map(x => x[1]), calibration:CALIBRATION.map(c => ({...c})), alerts:IMAGERY.map(i => i.alert), baselineStatus:BASELINES.map(b => b.status), batch:{ id:'BC-0042', stage:1, log:[] }, online:true, queue:[], theme:{ mode:'system', dayStart:'06:00', nightStart:'18:00' }, sel:null, filter:'all', q:'', prefProject:null, nextId:106, tab:'account', stab:'account',
+  authed:false, route:'dashboard', tpl:'Soil carbon', buildStatus:BUILD_ITEMS.map(x => x[1]), calibration:CALIBRATION.map(c => ({...c})), alerts:IMAGERY.map(i => i.alert), baselineStatus:BASELINES.map(b => b.status), batch:{ id:'BC-0042', stage:1, log:[] }, theme:{ mode:'system', dayStart:'06:00', nightStart:'18:00' }, sel:null, filter:'all', q:'', prefProject:null, nextId:106, tab:'account', stab:'account',
   user:{ name:'Demo User', email:'', role:'Admin', org:'African Carbon Exchange', title:'Programme lead', phone:'', tz:'Africa/Nairobi' },
   integrity:{ state:'idle', detail:'Not verified yet' }, tampered:null,
   settings:{ notifyReview:true, notifyFlags:true, notifyDigest:false, mfa:false, autoVerify:true, timeout:'30', retention:'7' },
@@ -805,7 +658,7 @@ function shell(body, title, sub, actions = ''){
         <div><div class="crumb">${esc(S.user.org)}</div></div>
         <div class="actions">
           <label class="search" aria-label="Search records"><span class="muted">Search</span><input id="q" value="${esc(S.q)}" placeholder="Record, plot or project" oninput="S.q=this.value;debounceSearch()"></label>
-          ${netChip()}${themeTree(true)}
+          ${themeTree(true)}
           <span class="roletag">${esc(S.user.role)}</span>
           <button class="btn sm" onclick="signOut()">Sign out</button>
         </div>
@@ -1172,7 +1025,6 @@ function settings(){
     </div>`;
   if (st === 'data') panel = `<div class="card">
       <div class="cardhead"><h3>Data and integrity</h3><small>Sealing and retention</small></div>
-      ${netRow()}
       ${sw('autoVerify','Check the chain every morning','Runs the full seal check and tells admins if any record has changed.')}
       <div class="setrow"><div><b>Record retention</b><p>How long records stay after a project closes. The standard may require a longer period (see open questions).</p></div>
         <select aria-label="Retention" onchange="S.settings.retention=this.value;toast('Retention set to '+this.value+' years')">${['5','7','10','15'].map(v => `<option value="${v}" ${s.retention===v?'selected':''}>${v} years</option>`).join('')}</select></div>
@@ -1357,7 +1209,7 @@ async function saveRecord(e){
     id, uid: newUid(), extra, projectId:d.projectId, type:d.type, source:d.source, ref:d.ref||'', periodStart:d.periodStart||'', periodEnd:d.periodEnd||'',
     plot:d.plot||'', value:d.value||'', unit:d.unit||'', lat:+d.lat||0, lon:+d.lon||0, date:d.date||'',
     method:d.method||'', collector:d.collector||'', notes:d.notes||'',
-    evidence: files.map(x => ({ name:x.name, type:x.type, url:URL.createObjectURL(x), blob:x })),
+    evidence: files.map(x => ({ name:x.name, type:x.type, url:URL.createObjectURL(x) })),
     status: mode==='submit' ? 'submitted' : 'draft',
     history: [[nowStr(), S.user.role, mode==='submit' ? 'Submitted' : 'Saved draft', '']]
   };
@@ -1393,7 +1245,7 @@ function addEvidence(id){
   const r = find(id), files = [...($('addFiles')?.files || [])];
   if (!r || !files.length) return toast('Choose a file first');
   if (!can('submit') || (r.status!=='draft' && r.status!=='changes')) return toast('Evidence can be added to drafts or records with changes requested');
-  files.forEach(x => r.evidence.push({ name:x.name, type:x.type, url:URL.createObjectURL(x), blob:x }));
+  files.forEach(x => r.evidence.push({ name:x.name, type:x.type, url:URL.createObjectURL(x) }));
   r.history.push([nowStr(), S.user.role, 'Evidence added', files.map(x => x.name).join(', ')]);
   toast(`${files.length} file(s) attached`); render();
 }
@@ -1457,109 +1309,113 @@ setInterval(() => { if (S.theme.mode === 'auto') applyTheme(); }, 30000);
 
 
 if (!CanvasRenderingContext2D.prototype.roundRect) { CanvasRenderingContext2D.prototype.roundRect = function(x,y,w,h){ this.rect(x,y,w,h); }; }
-/* ---------- Splash: animated intro using demo style ---------- */
-(function splashAnim(){
-  const timers=[];
-  function show(n){
-    timers.forEach(clearTimeout); timers=[];
-    document.querySelectorAll('.anim-scr').forEach((s,i)=>s.classList.toggle('on', i===n-1));
-    if(n===4) countUp();
-    if(n===2) timers.push(setTimeout(()=>show(3),3600));
-    if(n===3) { typeEmail(); timers.push(setTimeout(()=>finish(),3200)); }
-    if(n===1) timers.push(setTimeout(()=>show(2),4200));
+/* ---------- Splash: ACE grows from a forest, then the full name, 7 seconds ---------- */
+(function splash(){
+  const DW = 390, DH = 844, DUR = 7.0;
+  const canvas = $('splashCanvas'), ctx = canvas.getContext('2d');
+  const LET = { A:["01110","10001","10001","11111","10001","10001","10001"],
+                C:["01111","10000","10000","10000","10000","10000","01111"],
+                E:["11111","10000","10000","11110","10000","10000","11111"] };
+  const CELL = 17;
+  const targets = []; let x0 = 0;
+  for (const ch of 'ACE'){ LET[ch].forEach((row, r) => [...row].forEach((v, c) => { if (v === '1') targets.push([x0 + c, r]); })); x0 += 6; }
+  const cols = x0 - 1, ox = (DW - cols*CELL)/2, oy = 250;
+  const letterPts = targets.map(([x, y]) => [ox + x*CELL + CELL/2, oy + y*CELL + CELL/2]);
+  let seed = 9; const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+  const starts = letterPts.map(() => [14 + rnd()*(DW-28), 640 + rnd()*150]);
+  const spots = Array.from({length:30}, () => [14 + rnd()*(DW-28), 630 + rnd()*150, 0.9 + rnd()*0.7]).sort((a,b) => a[1]-b[1]);
+  const easeIO = t => { t = Math.max(0, Math.min(1, t)); return t*t*t*(t*(6*t-15)+10); };
+  const easeBack = t => { t = Math.max(0, Math.min(1, t)); const c1 = 1.4, c3 = c1+1; return 1 + c3*Math.pow(t-1,3) + c1*Math.pow(t-1,2); };
+  const COL = { trunk:'#654E38', a:'#2F7D4F', b:'#60A075', ink:'#0E1A14', muted:'#6B7A70', sun:'#F6D68C', gold:'#E0A93B' };
+
+  function resize(){
+    const dpr = window.devicePixelRatio || 1;
+    canvas.width = innerWidth * dpr; canvas.height = innerHeight * dpr;
   }
-  function countUp(){
-    document.querySelectorAll('.anim-num').forEach(el=>{
-      const to=+el.dataset.to, suf=el.dataset.suffix||'', start=performance.now(), dur=900;
-      (function step(now){ const t=Math.min(1,(now-start)/dur); const v=Math.round(to*(1-Math.pow(1-t,3)));
-        el.textContent=v+suf; if(t<1) requestAnimationFrame(step); })(start);
+  function tree(x, y, s, alpha){
+    if (s <= 0.02) return;
+    ctx.globalAlpha = alpha;
+    ctx.fillStyle = COL.trunk; ctx.fillRect(x-1.1*s, y-1*s, 2.2*s, 7*s);
+    ctx.fillStyle = COL.a; ctx.beginPath(); ctx.arc(x, y-9*s, 6*s, 0, Math.PI*2); ctx.fill();
+    ctx.fillStyle = COL.b; ctx.beginPath(); ctx.arc(x-0.8*s, y-13*s, 4.5*s, 0, Math.PI*2); ctx.fill();
+    ctx.globalAlpha = 1;
+  }
+  function draw(t){
+    const vw = innerWidth, vh = innerHeight, dpr = window.devicePixelRatio || 1;
+    const k = Math.min(vw/DW, vh/DH);
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+    ctx.fillStyle = '#F7F3E6'; ctx.fillRect(0,0,vw,vh);
+    ctx.setTransform(k*dpr,0,0,k*dpr,(vw-DW*k)/2*dpr,(vh-DH*k)/2*dpr);
+    // sky
+    const sky = ctx.createLinearGradient(0,0,0,DH);
+    sky.addColorStop(0,'#E8F2E9'); sky.addColorStop(1,'#F8F4E8');
+    ctx.fillStyle = sky; ctx.fillRect(0,0,DW,DH);
+    // sun glow and sun
+    const g = ctx.createRadialGradient(300,110,20,300,110,120);
+    g.addColorStop(0,'rgba(246,214,140,0.45)'); g.addColorStop(1,'rgba(246,214,140,0)');
+    ctx.fillStyle = g; ctx.fillRect(0,0,DW,DH);
+    ctx.fillStyle = COL.sun; ctx.beginPath(); ctx.arc(300,110,22,0,Math.PI*2); ctx.fill();
+    // hills
+    const hills = ['#CDE5C0','#A8CF98','#7DB574','#4E985D'];
+    hills.forEach((col, i) => {
+      ctx.fillStyle = col; ctx.beginPath(); ctx.moveTo(0, DH);
+      const base = 600 + i*62, ph = t*30;
+      for (let x = 0; x <= DW; x += 8){
+        const y = base + Math.sin((x + ph*(1+i*0.2))/95 + i*1.3)*12 + Math.cos(x/52 + i)*5;
+        ctx.lineTo(x, y);
+      }
+      ctx.lineTo(DW, DH); ctx.closePath(); ctx.fill();
     });
-  }
-  function typeEmail(){
-    const el=document.getElementById('animEmailTxt'), full='gabriel@ace.example';
-    const f=document.getElementById('animFEmail'); f.classList.add('anim-typed');
-    el.textContent=''; let i=0;
-    const id=setInterval(()=>{ el.textContent=full.slice(0,++i); if(i>=full.length){ clearInterval(id); } }, 70);
-    timers.push(id);
+    // 0 to 1.6s: forest sprouts
+    if (t < 1.6){
+      spots.forEach((p, i) => {
+        const gg = easeBack((t - i*0.03)/0.7);
+        if (gg > 0) tree(p[0], p[1], p[2]*gg, Math.min(1, gg));
+      });
+    }
+    // 1.4 to 3.8s: trees travel into A C E
+    if (t >= 1.4){
+      letterPts.forEach(([tx, ty], i) => {
+        const [fx, fy] = starts[i];
+        const kk = easeIO((t - 1.6 - i*0.012)/1.9);
+        const x = fx + (tx-fx)*kk, y = fy + (ty-fy)*kk - Math.sin(kk*Math.PI)*40;
+        tree(x, y+8, 1.0, 1);
+      });
+    }
+    // 4.8s onward: full name fades in under ACE
+    if (t >= 4.8){
+      const a = easeIO((t-4.8)/0.8);
+      ctx.globalAlpha = a; ctx.textAlign = 'center';
+      ctx.fillStyle = COL.ink; ctx.font = '700 17px Inter, Arial, sans-serif';
+      ctx.fillText('African Carbon Exchange', DW/2, 500);
+      ctx.fillStyle = COL.muted; ctx.font = '400 13px Inter, Arial, sans-serif';
+      ctx.fillText('Field Evidence', DW/2, 528);
+      ctx.globalAlpha = 1;
+    }
+    // progress line
+    if (t >= 0.6){
+      const p = Math.min(1, (t-0.6)/6.4);
+      ctx.fillStyle = '#D6DED4'; ctx.beginPath(); ctx.roundRect(96,780,198,4,2); ctx.fill();
+      ctx.fillStyle = COL.gold; ctx.beginPath(); ctx.roundRect(96,780,198*p,4,2); ctx.fill();
+    }
   }
   function finish(){
-    const el = document.getElementById('splash');
+    const el = $('splash');
     el.classList.add('fadeout');
-    setTimeout(() => { el.classList.add('hidden'); document.getElementById('root').classList.add('show'); }, 320);
+    setTimeout(() => { el.classList.add('hidden'); $('root').classList.add('show'); }, 320);
   }
-  
-  // Build HTML inside phone
-  const phone = document.getElementById('animPhone');
-  phone.innerHTML = `
-    <section class="anim-scr on" id="s1" style="background:linear-gradient(#E8F4EC,#F8F5E6);display:flex;flex-direction:column;align-items:center;justify-content:center">
-      <div style="position:absolute;left:0;right:0;top:170px;display:flex;flex-direction:column;align-items:center">
-        <svg class="anim-sprout" viewBox="0 0 200 260">
-          <ellipse class="ground" cx="100" cy="236" rx="90" ry="14" fill="#96C48A"/>
-          <path class="stem" d="M100 236 C100 190 98 150 100 100"/>
-          <ellipse class="leaf l1" cx="72" cy="112" rx="34" ry="16" fill="#6FB082" transform="rotate(-25 72 112)" style="transform-origin:100px 105px"/>
-          <ellipse class="leaf l2" cx="128" cy="92" rx="34" ry="16" fill="#2F7D4F" transform="rotate(20 128 92)" style="transform-origin:100px 100px"/>
-        </svg>
-        <div class="anim-wordmark">ACE</div>
-        <div class="anim-tagline">African Carbon Exchange</div>
-        <div class="anim-sub">Field Evidence</div>
-      </div>
-    </section>
-    <section class="anim-scr" id="s2" style="display:flex;flex-direction:column;position:relative;height:100%">
-      <div style="background:linear-gradient(#B6E2EE,#F5F3E2);height:200px;display:flex;align-items:flex-end;justify-content:center;color:#0E1A14">
-        <div style="text-align:center;margin-bottom:40px"><div style="font-size:26px;font-weight:800;letter-spacing:-.02em">Your carbon records,<br>proven and sealed.</div><div style="font-size:14px;color:#6B7A70;margin-top:8px">Field data, checks and audit trail in one place.</div></div>
-      </div>
-      <div style="flex:1;background:#fff;border-radius:20px 20px 0 0;padding:32px 24px;display:flex;flex-direction:column;justify-content:center">
-        <button style="width:100%;border:0;border-radius:18px;background:#2F7D4F;color:#fff;font-weight:700;font-size:17px;padding:17px;font-family:inherit;cursor:pointer;box-shadow:0 10px 24px rgba(47,125,79,.3)" onclick="window.show(3)">Get started →</button>
-        <div style="text-align:center;color:#2F7D4F;font-weight:700;font-size:13px;margin-top:18px;cursor:pointer" onclick="window.show(3)">Already have an account? Sign in</div>
-      </div>
-    </section>
-    <section class="anim-scr" id="s3" style="display:flex;flex-direction:column;position:relative;height:100%;background:#fff">
-      <div style="background:#A9DCEB;height:150px;display:flex;align-items:flex-end;justify-content:center;padding-bottom:20px">
-        <div style="font-size:28px;font-weight:800;color:#0E1A14">ACE</div>
-      </div>
-      <div style="flex:1;padding:24px;display:flex;flex-direction:column;justify-content:center">
-        <div style="font-size:24px;font-weight:800;color:#0E1A14">Welcome back</div>
-        <div style="font-size:14px;color:#6B7A70;margin-top:8px;margin-bottom:20px">Sign in to your field workspace</div>
-        <div id="animFEmail" style="margin-bottom:16px">
-          <label style="font-size:12px;font-weight:700;color:#0E1A14;display:block;margin-bottom:8px">Work email</label>
-          <div style="height:50px;border-radius:12px;background:#F6F8F4;border:1px solid #D7E0D6;padding:14px;color:#8A9A90;font-size:14px;display:flex;align-items:center">
-            <span id="animEmailTxt">name@organisation.org</span><span style="animation:blink 1s steps(1) infinite;margin-left:2px">|</span>
-          </div>
-        </div>
-        <button style="width:100%;border:0;border-radius:18px;background:#0E1A14;color:#fff;font-weight:700;font-size:17px;padding:17px;font-family:inherit;cursor:pointer;margin-top:16px" onclick="window.show(4)">Sign in</button>
-      </div>
-    </section>
-    <section class="anim-scr" id="s4" style="display:flex;flex-direction:column;position:relative;height:100%;background:#fff">
-      <div style="background:linear-gradient(#A9DCEB,#DDEFE8);height:120px;padding:16px;display:flex;align-items:flex-end">
-        <div style="color:#0E1A14">
-          <div style="font-size:18px;font-weight:700">Good morning, Gabriel</div>
-          <div style="font-size:13px;color:#6B7A70">2 records waiting for review</div>
-        </div>
-      </div>
-      <div style="flex:1;padding:16px;overflow-y:auto;display:grid;grid-template-columns:repeat(3,1fr);gap:8px">
-        <div style="background:#F5F6F2;border-radius:12px;padding:12px;text-align:center">
-          <div style="font-size:12px;color:#6B7A70">Records</div>
-          <div class="anim-num" style="font-size:24px;font-weight:700;color:#0E1A14;margin-top:4px" data-to="5">0</div>
-        </div>
-        <div style="background:#F5F6F2;border-radius:12px;padding:12px;text-align:center">
-          <div style="font-size:12px;color:#6B7A70">Verified</div>
-          <div class="anim-num" style="font-size:24px;font-weight:700;color:#0E1A14;margin-top:4px" data-to="20" data-suffix="%">0%</div>
-        </div>
-        <div style="background:#F5F6F2;border-radius:12px;padding:12px;text-align:center">
-          <div style="font-size:12px;color:#6B7A70">Flags</div>
-          <div class="anim-num" style="font-size:24px;font-weight:700;color:#0E1A14;margin-top:4px" data-to="1">0</div>
-        </div>
-      </div>
-    </section>
-  `;
-  
-  window.show = show;
-  show(1);
+  const t0 = performance.now();
+  function loop(now){
+    const t = (now - t0)/1000;
+    draw(Math.min(t, DUR));
+    if (t < DUR) requestAnimationFrame(loop); else finish();
+  }
+  resize(); addEventListener('resize', resize);
+  requestAnimationFrame(loop);
 })();
 
 /* ---------- Render ---------- */
 function render(){
-  persist();
   const root = $('root');
   if (!S.authed){ root.innerHTML = loginView(); return; }
   const views = { dashboard, projects, entry, records, record:recordView, audit:auditView, profile, settings, sites:sitesView, baselines:baselinesView, integrity:integrityView, reports:reportsView, status:statusView };
@@ -1579,67 +1435,9 @@ setInterval(() => {
   }
 }, 2500);
 
-
-/* ---------- Local storage, offline mode and queue (prototype) ---------- */
-let LOADED = false, DB = null, _pt = null;
-function dbOpen(){ return new Promise((res, rej) => { const r = indexedDB.open('ace-field-evidence', 1);
-  r.onupgradeneeded = () => r.result.createObjectStore('kv'); r.onsuccess = () => res(r.result); r.onerror = () => rej(r.error); }); }
-function dbGet(k){ return new Promise(res => { try { const t = DB.transaction('kv').objectStore('kv').get(k); t.onsuccess = () => res(t.result); t.onerror = () => res(undefined); } catch(e){ res(undefined); } }); }
-function dbSet(k, v){ try { DB.transaction('kv', 'readwrite').objectStore('kv').put(v, k); } catch(e){} }
-function snapshot(){
-  return { v:1, uidN:UID_N, tampered:S.tampered,
-    records: S.records.map(r => ({ ...r, evidence: r.evidence.map(e => ({ name:e.name, type:e.type, blob:e.blob })) })),
-    nextId:S.nextId, calibration:S.calibration, buildStatus:S.buildStatus, alerts:S.alerts, baselineStatus:S.baselineStatus,
-    batch:S.batch, theme:S.theme, settings:S.settings, queue:S.queue, online:S.online, user:S.user };
-}
-function restore(d){
-  if (!d || !d.records) return false;
-  S.records = d.records.map(r => ({ ...r, evidence: (r.evidence || []).map(e => ({ name:e.name, type:e.type, blob:e.blob, url: e.blob ? URL.createObjectURL(e.blob) : null })) }));
-  ['nextId','calibration','buildStatus','alerts','baselineStatus','batch','theme','settings','queue','online','user','tampered'].forEach(k => { if (d[k] !== undefined) S[k] = d[k]; });
-  if (d.uidN) UID_N = d.uidN;
-  return true;
-}
-function persist(){ if (!LOADED || !DB) return; clearTimeout(_pt); _pt = setTimeout(() => dbSet('state', snapshot()), 150); }
-async function boot(){
-  try {
-    DB = await dbOpen();
-    const d = await dbGet('state');
-    if (restore(d)) S.integrity = { state:'idle', detail:'Restored from this device. Verify to confirm the chain.' };
-    else await sealAll();
-  } catch(e) { DB = null; await sealAll(); }
-  LOADED = true; render();
-}
-function netChip(){
-  const n = S.queue.length;
-  return `<button class="chip ${S.online ? 'ok' : 'warn'}" onclick="toggleOnline()" title="Switch between online and offline mode">${S.online ? 'Online' : 'Offline'}${n ? ' · ' + n + ' queued' : ''}</button>`;
-}
-function netRow(){
-  const n = S.queue.length, phone = navigator.onLine;
-  return `<div class="setrow"><div><b>Offline mode</b><p>When on, the app makes no connection. Changes are saved on this device and queued. Turning it off syncs the queue. Phone connection: ${phone ? 'available' : 'none'}. ${n ? n + ' change' + (n > 1 ? 's' : '') + ' waiting to sync.' : 'Nothing waiting.'}</p></div>
-    <button class="switch ${S.online ? '' : 'on'}" role="switch" aria-checked="${!S.online}" aria-label="Offline mode" onclick="toggleOnline()"></button></div>`;
-}
-function toggleOnline(){
-  if (S.online){ S.online = false; toast('Offline: changes are saved on this device'); }
-  else {
-    S.online = true; const n = S.queue.length; S.queue = [];
-    toast(n ? `Online. Synced ${n} change${n > 1 ? 's' : ''}` : 'Online');
-  }
-  render();
-}
-function queueChange(label){ if (!S.online){ S.queue.push({ at:nowStr(), label }); render(); } }
-
-const _saveRecord = saveRecord;
-saveRecord = async function(e){ const n = S.records.length; await _saveRecord(e); if (S.records.length > n) queueChange('Saved ' + S.records[S.records.length-1].id); };
-const _submitExisting = submitExisting;
-submitExisting = function(id){ const r = find(id), b = r && r.status; _submitExisting(id); if (r && r.status !== b) queueChange(id + ' submitted'); };
-const _review = review;
-review = function(id, act){ const r = find(id), b = r && r.status; _review(id, act); if (r && r.status !== b) queueChange(id + ' ' + r.status); };
-const _addEvidence = addEvidence;
-addEvidence = function(id){ const r = find(id), n = r ? r.evidence.length : 0; _addEvidence(id); if (r && r.evidence.length > n) queueChange(id + ' evidence added'); };
-
 applyTheme();
-boot();
-
+(async () => { await sealAll(); render(); })();
+render();
 </script>
 </body>
 </html>
