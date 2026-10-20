@@ -1317,9 +1317,10 @@ function sitesView(){
         const map = L.map('mapContainer').setView([2, 10], 4);
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap'}).addTo(map);
         PROJECTS.forEach(p=>{
+          const projId = p.id;
           L.circleMarker([p.c[0], p.c[1]], {radius:12, fillColor:'#2F7D4F', color:'#fff', weight:2, opacity:1, fillOpacity:0.8})
             .bindPopup('<b>'+esc(p.name)+'</b><br>'+p.country+'<br>'+p.type)
-            .on('click', function(){ selectProjectMap('${p.id}'); })
+            .on('click', function(){ selectProjectMap(projId); })
             .addTo(map);
         });
       }
