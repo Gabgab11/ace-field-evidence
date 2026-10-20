@@ -1311,21 +1311,6 @@ function sitesView(){
       </div>
     </div>
   </div>
-  <script>
-    setTimeout(()=>{
-      if(window.L && document.getElementById('mapContainer')){
-        const map = L.map('mapContainer').setView([2, 10], 4);
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap'}).addTo(map);
-        PROJECTS.forEach(p=>{
-          const projId = p.id;
-          L.circleMarker([p.c[0], p.c[1]], {radius:12, fillColor:'#2F7D4F', color:'#fff', weight:2, opacity:1, fillOpacity:0.8})
-            .bindPopup('<b>'+esc(p.name)+'</b><br>'+p.country+'<br>'+p.type)
-            .on('click', function(){ selectProjectMap(projId); })
-            .addTo(map);
-        });
-      }
-    }, 100);
-  </script>
   <h3 style="margin-bottom:6px;margin-top:26px">Imagery and alerts</h3>
   <p class="muted" style="font-size:14px;margin-bottom:14px">Click an alert to change its status. Values are sample data.</p>
   <div class="card tablewrap"><table class="table">
@@ -1336,6 +1321,22 @@ function sitesView(){
 }
 
 function selectProjectMap(id){ S.prefProject = id; S.route = 'projects'; render(); window.scrollTo({top:0}); }
+
+function initMap(){
+  setTimeout(()=>{
+    if(window.L && document.getElementById('mapContainer')){
+      const map = L.map('mapContainer').setView([2, 10], 4);
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap'}).addTo(map);
+      PROJECTS.forEach(p=>{
+        const projId = p.id;
+        L.circleMarker([p.c[0], p.c[1]], {radius:12, fillColor:'#2F7D4F', color:'#fff', weight:2, opacity:1, fillOpacity:0.8})
+          .bindPopup('<b>'+esc(p.name)+'</b><br>'+p.country+'<br>'+p.type)
+          .on('click', function(){ selectProjectMap(projId); })
+          .addTo(map);
+      });
+    }
+  }, 100);
+}
 
 function baselinesView(){
   const body = `<div class="card tablewrap"><table class="table">
@@ -1570,6 +1571,7 @@ function render(){
   const focusQ = document.activeElement && document.activeElement.id === 'q';
   root.innerHTML = (views[S.route] || dashboard)();
   if (focusQ){ const q = $('q'); if (q){ q.focus(); q.setSelectionRange(q.value.length, q.value.length); } }
+  if (S.route === 'sites') initMap();
 }
 
 /* Live feed updates in place, without re-rendering */
