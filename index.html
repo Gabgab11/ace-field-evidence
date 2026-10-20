@@ -1327,19 +1327,45 @@ function sitesView(){
 function selectProjectMap(id){ S.prefProject = id; S.route = 'projects'; render(); window.scrollTo({top:0}); }
 
 function initMap(){
-  setTimeout(()=>{
-    if(window.L && document.getElementById('mapContainer')){
-      const map = L.map('mapContainer').setView([2, 10], 4);
-      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap'}).addTo(map);
-      PROJECTS.forEach(p=>{
-        const projId = p.id;
-        L.circleMarker([p.c[0], p.c[1]], {radius:12, fillColor:'#2F7D4F', color:'#fff', weight:2, opacity:1, fillOpacity:0.8})
-          .bindPopup('<b>'+esc(p.name)+'</b><br>'+p.country+'<br>'+p.type)
-          .on('click', function(){ selectProjectMap(projId); })
-          .addTo(map);
-      });
+  const container = document.getElementById('mapContainer');
+  if(!container) return;
+
+  // Wait for Leaflet to load
+  let attempts = 0;
+  const tryInit = () => {
+    if(typeof L !== 'undefined'){
+      try {
+        container.innerHTML = ''; // Clear placeholder
+        const map = L.map(container).setView([2, 10], 4);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
+          attribution: '© OpenStreetMap contributors',
+          maxZoom: 19
+        }).addTo(map);
+
+        PROJECTS.forEach(p=>{
+          L.circleMarker([p.c[0], p.c[1]], {
+            radius: 12,
+            fillColor: '#2F7D4F',
+            color: '#fff',
+            weight: 2,
+            opacity: 1,
+            fillOpacity: 0.8
+          }).bindPopup('<b>'+p.name+'</b><br>'+p.country+'<br>'+p.type)
+            .on('click', function(){ selectProjectMap(p.id); })
+            .addTo(map);
+        });
+      } catch(e) {
+        console.error('Map init error:', e);
+        container.innerHTML = '<p style="padding:20px">Map failed to load. Try refreshing.</p>';
+      }
+    } else if(attempts++ < 20){
+      setTimeout(tryInit, 50);
+    } else {
+      container.innerHTML = '<p style="padding:20px">Leaflet library not found</p>';
     }
-  }, 100);
+  };
+
+  tryInit();
 }
 
 function baselinesView(){
