@@ -1326,21 +1326,26 @@ function sitesView(){
 
 function selectProjectMap(id){ S.prefProject = id; S.route = 'projects'; render(); window.scrollTo({top:0}); }
 
+let mapInstance = null;
+
 function initMap(){
   const container = document.getElementById('mapContainer');
-  if(!container) return;
+  if(!container || mapInstance) return; // Don't reinitialize
 
   // Wait for Leaflet to load
   let attempts = 0;
   const tryInit = () => {
     if(typeof L !== 'undefined'){
       try {
-        container.innerHTML = ''; // Clear placeholder
-        const map = L.map(container).setView([2, 10], 4);
+        container.innerHTML = ''; // Clear any existing content
+        container.style.height = '480px'; // Ensure height
+
+        mapInstance = L.map(container, {preferCanvas: true}).setView([2, 10], 4);
+
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
-          attribution: '© OpenStreetMap contributors',
+          attribution: '© OpenStreetMap',
           maxZoom: 19
-        }).addTo(map);
+        }).addTo(mapInstance);
 
         PROJECTS.forEach(p=>{
           L.circleMarker([p.c[0], p.c[1]], {
@@ -1352,16 +1357,16 @@ function initMap(){
             fillOpacity: 0.8
           }).bindPopup('<b>'+p.name+'</b><br>'+p.country+'<br>'+p.type)
             .on('click', function(){ selectProjectMap(p.id); })
-            .addTo(map);
+            .addTo(mapInstance);
         });
       } catch(e) {
-        console.error('Map init error:', e);
-        container.innerHTML = '<p style="padding:20px">Map failed to load. Try refreshing.</p>';
+        console.error('Map error:', e);
+        container.innerHTML = '<p style="padding:20px;color:#999">Map unavailable</p>';
       }
-    } else if(attempts++ < 20){
-      setTimeout(tryInit, 50);
+    } else if(attempts++ < 30){
+      setTimeout(tryInit, 100);
     } else {
-      container.innerHTML = '<p style="padding:20px">Leaflet library not found</p>';
+      container.innerHTML = '<p style="padding:20px;color:#999">Leaflet not loaded</p>';
     }
   };
 
@@ -1601,7 +1606,6 @@ function render(){
   const focusQ = document.activeElement && document.activeElement.id === 'q';
   root.innerHTML = (views[S.route] || dashboard)();
   if (focusQ){ const q = $('q'); if (q){ q.focus(); q.setSelectionRange(q.value.length, q.value.length); } }
-  if (S.route === 'sites') initMap();
 }
 
 /* Live feed updates in place, without re-rendering */
