@@ -511,10 +511,10 @@ input[type=checkbox]{width:18px;height:18px;accent-color:var(--green)}
       <div class="sign">
         <div class="h1">Welcome back</div>
         <div class="p" style="margin-top:6px">Sign in to your field workspace</div>
-        <div class="field" id="fEmail"><label>Work email</label><div id="emailTxt">name@organisation.org</div></div>
-        <div class="field" id="fPw"><label>Password</label><div>••••••••</div></div>
+        <div class="field"><label>Work email</label><input type="email" placeholder="name@organisation.org" style="width:100%;border:none;background:transparent;color:#0E1A14;font-size:14px;font-family:inherit" /></div>
+        <div class="field"><label>Password</label><input type="password" placeholder="••••••••" style="width:100%;border:none;background:transparent;color:#0E1A14;font-size:14px;font-family:inherit" /></div>
         <button class="btn-splash dark" onclick="splashEnd()">Sign in</button>
-        <div class="link">Forgot password?</div>
+        <div class="link" onclick="alert('Password reset coming soon')">Forgot password?</div>
       </div>
     </section>
 
@@ -664,7 +664,7 @@ const TEAM = [
 
 /* ---------- State (demo only, held in memory) ---------- */
 const S = {
-  authed:false, route:'dashboard', tpl:'Soil carbon', buildStatus:BUILD_ITEMS.map(x => x[1]), calibration:CALIBRATION.map(c => ({...c})), alerts:IMAGERY.map(i => i.alert), baselineStatus:BASELINES.map(b => b.status), batch:{ id:'BC-0042', stage:1, log:[] }, theme:{ mode:'system', dayStart:'06:00', nightStart:'18:00' }, sel:null, filter:'all', q:'', prefProject:null, nextId:106, tab:'account', stab:'account',
+  authed:true, route:'dashboard', tpl:'Soil carbon', buildStatus:BUILD_ITEMS.map(x => x[1]), calibration:CALIBRATION.map(c => ({...c})), alerts:IMAGERY.map(i => i.alert), baselineStatus:BASELINES.map(b => b.status), batch:{ id:'BC-0042', stage:1, log:[] }, theme:{ mode:'system', dayStart:'06:00', nightStart:'18:00' }, sel:null, filter:'all', q:'', prefProject:null, nextId:106, tab:'account', stab:'account',
   user:{ name:'Demo User', email:'', role:'Admin', org:'African Carbon Exchange', title:'Programme lead', phone:'', tz:'Africa/Nairobi' },
   integrity:{ state:'idle', detail:'Not verified yet' }, tampered:null,
   settings:{ notifyReview:true, notifyFlags:true, notifyDigest:false, mfa:false, autoVerify:true, timeout:'30', retention:'7' },
