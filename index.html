@@ -327,20 +327,7 @@ input[type=checkbox]{width:18px;height:18px;accent-color:var(--green)}
 .timerow{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:6px}
 .timerow input[type=time]{width:auto;min-width:130px}
 
-/* Splash */
-#splash{position:fixed;inset:0;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;z-index:100;transition:opacity .6s ease,visibility .6s;cursor:pointer}
-#splash.gone{opacity:0;visibility:hidden}
-.splash-mark{width:84px;height:84px;border-radius:26px;background:var(--ink);color:var(--on-ink);display:grid;place-items:center;font-weight:800;font-size:24px;letter-spacing:.02em;animation:rise .9s cubic-bezier(.2,.8,.2,1) both;box-shadow:0 18px 40px rgba(14,26,20,.18)}
-.splash-name{font-weight:700;font-size:24px;letter-spacing:-.03em;animation:rise .9s .15s cubic-bezier(.2,.8,.2,1) both}
-.splash-sub{color:var(--muted);font-size:14.5px;font-weight:500;animation:rise .9s .25s cubic-bezier(.2,.8,.2,1) both}
-.splash-bar{width:200px;height:4px;border-radius:4px;background:var(--soft);overflow:hidden;margin-top:14px}
-.splash-bar i{display:block;height:100%;width:0;background:var(--green);animation:fill 2.4s ease forwards}
-.splash-hint{color:var(--muted);font-size:12.5px;margin-top:6px}
-.splash-leaf{position:absolute;bottom:14%;width:26px;height:26px;border-radius:2px 14px 2px 14px;background:var(--green);opacity:.85;animation:sway 3s ease-in-out infinite}
-@keyframes rise{from{opacity:0;transform:translateY(12px) scale(.96)}to{opacity:1;transform:none}}
-@keyframes fill{to{width:100%}}
-@keyframes sway{0%,100%{transform:rotate(-8deg)}50%{transform:rotate(8deg)}}
-@media (prefers-reduced-motion:reduce){.splash-mark,.splash-name,.splash-sub,.splash-leaf{animation:none}.splash-bar i{animation:none;width:100%}}
+/* Splash screen removed - will be added separately */
 
 /* Mobile bar: light and dark friendly */
 @media(max-width:900px){
@@ -351,13 +338,8 @@ input[type=checkbox]{width:18px;height:18px;accent-color:var(--green)}
   .tree.compact{display:none}
 }
 
-/* v4: splash then clean sign-in */
-#root{opacity:0}
-#root.show{opacity:1;transition:opacity .45s ease}
-#splash{position:fixed;inset:0;z-index:100;background:#F7F3E6;overflow:hidden}
-#splash.fadeout #splashCanvas{opacity:0;transition:opacity .3s ease}
-#splash.hidden{display:none}
-#splashCanvas{position:absolute;inset:0;width:100%;height:100%}
+/* Root is visible by default */
+#root{opacity:1}
 .signin-page{min-height:100vh;display:grid;place-items:center;padding:40px 20px;background:var(--surface)}
 .signin-card{width:100%;max-width:380px}
 .signin-card .mark.big{width:64px;height:64px;border-radius:20px;font-size:18px;margin:0 auto 26px;display:grid}
@@ -398,7 +380,6 @@ input[type=checkbox]{width:18px;height:18px;accent-color:var(--green)}
 </style>
 </head>
 <body>
-<div id="splash" role="status" aria-label="Loading Field Evidence"><canvas id="splashCanvas"></canvas></div>
 <div id="root"></div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <button id="helpBtn" title="Help & Support" onclick="if(window.help)help();else alert('Help Center - Tips, guides, and support contacts coming soon!')">?</button>
@@ -1324,111 +1305,7 @@ setInterval(() => { if (S.theme.mode === 'auto') applyTheme(); }, 30000);
 
 
 
-if (!CanvasRenderingContext2D.prototype.roundRect) { CanvasRenderingContext2D.prototype.roundRect = function(x,y,w,h){ this.rect(x,y,w,h); }; }
-/* ---------- Splash: ACE grows from a forest, then the full name, 7 seconds ---------- */
-(function splash(){
-  const DW = 390, DH = 844, DUR = 7.0;
-  const canvas = $('splashCanvas'), ctx = canvas.getContext('2d');
-  const LET = { A:["01110","10001","10001","11111","10001","10001","10001"],
-                C:["01111","10000","10000","10000","10000","10000","01111"],
-                E:["11111","10000","10000","11110","10000","10000","11111"] };
-  const CELL = 17;
-  const targets = []; let x0 = 0;
-  for (const ch of 'ACE'){ LET[ch].forEach((row, r) => [...row].forEach((v, c) => { if (v === '1') targets.push([x0 + c, r]); })); x0 += 6; }
-  const cols = x0 - 1, ox = (DW - cols*CELL)/2, oy = 250;
-  const letterPts = targets.map(([x, y]) => [ox + x*CELL + CELL/2, oy + y*CELL + CELL/2]);
-  let seed = 9; const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
-  const starts = letterPts.map(() => [14 + rnd()*(DW-28), 640 + rnd()*150]);
-  const spots = Array.from({length:30}, () => [14 + rnd()*(DW-28), 630 + rnd()*150, 0.9 + rnd()*0.7]).sort((a,b) => a[1]-b[1]);
-  const easeIO = t => { t = Math.max(0, Math.min(1, t)); return t*t*t*(t*(6*t-15)+10); };
-  const easeBack = t => { t = Math.max(0, Math.min(1, t)); const c1 = 1.4, c3 = c1+1; return 1 + c3*Math.pow(t-1,3) + c1*Math.pow(t-1,2); };
-  const COL = { trunk:'#654E38', a:'#2F7D4F', b:'#60A075', ink:'#0E1A14', muted:'#6B7A70', sun:'#F6D68C', gold:'#E0A93B' };
-
-  function resize(){
-    const dpr = window.devicePixelRatio || 1;
-    canvas.width = innerWidth * dpr; canvas.height = innerHeight * dpr;
-  }
-  function tree(x, y, s, alpha){
-    if (s <= 0.02) return;
-    ctx.globalAlpha = alpha;
-    ctx.fillStyle = COL.trunk; ctx.fillRect(x-1.1*s, y-1*s, 2.2*s, 7*s);
-    ctx.fillStyle = COL.a; ctx.beginPath(); ctx.arc(x, y-9*s, 6*s, 0, Math.PI*2); ctx.fill();
-    ctx.fillStyle = COL.b; ctx.beginPath(); ctx.arc(x-0.8*s, y-13*s, 4.5*s, 0, Math.PI*2); ctx.fill();
-    ctx.globalAlpha = 1;
-  }
-  function draw(t){
-    const vw = innerWidth, vh = innerHeight, dpr = window.devicePixelRatio || 1;
-    const k = Math.min(vw/DW, vh/DH);
-    ctx.setTransform(dpr,0,0,dpr,0,0);
-    ctx.fillStyle = '#F7F3E6'; ctx.fillRect(0,0,vw,vh);
-    ctx.setTransform(k*dpr,0,0,k*dpr,(vw-DW*k)/2*dpr,(vh-DH*k)/2*dpr);
-    // sky
-    const sky = ctx.createLinearGradient(0,0,0,DH);
-    sky.addColorStop(0,'#E8F2E9'); sky.addColorStop(1,'#F8F4E8');
-    ctx.fillStyle = sky; ctx.fillRect(0,0,DW,DH);
-    // sun glow and sun
-    const g = ctx.createRadialGradient(300,110,20,300,110,120);
-    g.addColorStop(0,'rgba(246,214,140,0.45)'); g.addColorStop(1,'rgba(246,214,140,0)');
-    ctx.fillStyle = g; ctx.fillRect(0,0,DW,DH);
-    ctx.fillStyle = COL.sun; ctx.beginPath(); ctx.arc(300,110,22,0,Math.PI*2); ctx.fill();
-    // hills
-    const hills = ['#CDE5C0','#A8CF98','#7DB574','#4E985D'];
-    hills.forEach((col, i) => {
-      ctx.fillStyle = col; ctx.beginPath(); ctx.moveTo(0, DH);
-      const base = 600 + i*62, ph = t*30;
-      for (let x = 0; x <= DW; x += 8){
-        const y = base + Math.sin((x + ph*(1+i*0.2))/95 + i*1.3)*12 + Math.cos(x/52 + i)*5;
-        ctx.lineTo(x, y);
-      }
-      ctx.lineTo(DW, DH); ctx.closePath(); ctx.fill();
-    });
-    // 0 to 1.6s: forest sprouts
-    if (t < 1.6){
-      spots.forEach((p, i) => {
-        const gg = easeBack((t - i*0.03)/0.7);
-        if (gg > 0) tree(p[0], p[1], p[2]*gg, Math.min(1, gg));
-      });
-    }
-    // 1.4 to 3.8s: trees travel into A C E
-    if (t >= 1.4){
-      letterPts.forEach(([tx, ty], i) => {
-        const [fx, fy] = starts[i];
-        const kk = easeIO((t - 1.6 - i*0.012)/1.9);
-        const x = fx + (tx-fx)*kk, y = fy + (ty-fy)*kk - Math.sin(kk*Math.PI)*40;
-        tree(x, y+8, 1.0, 1);
-      });
-    }
-    // 4.8s onward: full name fades in under ACE
-    if (t >= 4.8){
-      const a = easeIO((t-4.8)/0.8);
-      ctx.globalAlpha = a; ctx.textAlign = 'center';
-      ctx.fillStyle = COL.ink; ctx.font = '700 17px Inter, Arial, sans-serif';
-      ctx.fillText('African Carbon Exchange', DW/2, 500);
-      ctx.fillStyle = COL.muted; ctx.font = '400 13px Inter, Arial, sans-serif';
-      ctx.fillText('Field Evidence', DW/2, 528);
-      ctx.globalAlpha = 1;
-    }
-    // progress line
-    if (t >= 0.6){
-      const p = Math.min(1, (t-0.6)/6.4);
-      ctx.fillStyle = '#D6DED4'; ctx.beginPath(); ctx.roundRect(96,780,198,4,2); ctx.fill();
-      ctx.fillStyle = COL.gold; ctx.beginPath(); ctx.roundRect(96,780,198*p,4,2); ctx.fill();
-    }
-  }
-  function finish(){
-    const el = $('splash');
-    el.classList.add('fadeout');
-    setTimeout(() => { el.classList.add('hidden'); $('root').classList.add('show'); }, 320);
-  }
-  const t0 = performance.now();
-  function loop(now){
-    const t = (now - t0)/1000;
-    draw(Math.min(t, DUR));
-    if (t < DUR) requestAnimationFrame(loop); else finish();
-  }
-  resize(); addEventListener('resize', resize);
-  requestAnimationFrame(loop);
-})();
+/* Splash screen removed - will be added separately */
 
 /* ---------- Render ---------- */
 function render(){
