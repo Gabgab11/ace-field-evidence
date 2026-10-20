@@ -545,7 +545,7 @@ input[type=checkbox]{width:18px;height:18px;accent-color:var(--green)}
     </section>
   </div>
   <button id="replay" onclick="splashRestart()">Replay</button>
-  <div id="hint">Plays automatically · tap Get started to skip ahead</div>
+  <div id="hint">Click to explore · tap buttons to navigate</div>
 </div>
 
 <div id="root"></div>
@@ -553,15 +553,13 @@ input[type=checkbox]{width:18px;height:18px;accent-color:var(--green)}
 <button id="helpBtn" title="Help & Support" onclick="if(window.help)help();else alert('Help Center - Tips, guides, and support contacts coming soon!')">?</button>
 
 <script>
-/* ---------- Splash Screen ---------- */
+/* ---------- Splash Screen (Clickable, No Auto-Play) ---------- */
 let splashTimers=[];
 function splashShow(n){
   splashTimers.forEach(clearTimeout); splashTimers=[];
   document.querySelectorAll('.scr').forEach((s,i)=>s.classList.toggle('on', i===n-1));
   if(n===4) splashCountUp();
-  if(n===2) splashTimers.push(setTimeout(()=>splashShow(3),3600));
-  if(n===3) { splashTypeEmail(); splashTimers.push(setTimeout(()=>splashShow(4),3200)); }
-  if(n===1) splashTimers.push(setTimeout(()=>splashShow(2),4200));
+  if(n===3) splashTypeEmail();
 }
 function splashCountUp(){
   document.querySelectorAll('.num').forEach(el=>{
@@ -574,7 +572,7 @@ function splashTypeEmail(){
   const el=document.getElementById('emailTxt'), full='gabriel@ace.example';
   const f=document.getElementById('fEmail'); f.classList.add('typed');
   el.textContent=''; let i=0;
-  const id=setInterval(()=>{ el.textContent=full.slice(0,++i); if(i>=full.length){ clearInterval(id); splashTimers.push(setTimeout(()=>{ splashEnd(); }, 1000)); } }, 70);
+  const id=setInterval(()=>{ el.textContent=full.slice(0,++i); if(i>=full.length){ clearInterval(id); } }, 70);
   splashTimers.push(id);
 }
 function splashEnd(){
