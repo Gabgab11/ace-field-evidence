@@ -452,6 +452,8 @@ input[type=checkbox]{width:18px;height:18px;accent-color:var(--green)}
 #helpBtn:active{transform:scale(.95)}
 @media(max-width:620px){#helpBtn{bottom:24px;right:24px;width:48px;height:48px;font-size:20px}}
 </style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 </head>
 <body>
 <div id="splash-overlay">
@@ -1286,19 +1288,49 @@ async function advanceBatch(){
 /* ---------- Module views ---------- */
 function sitesView(){
   const body = `
-  <h3 style="margin-bottom:14px">Project sites</h3>
-  <div class="card tablewrap" style="margin-bottom:26px"><table class="table">
-    <thead><tr><th>Site</th><th>Project</th><th>Area</th><th>Baseline year</th><th>Centroid</th></tr></thead>
-    <tbody>${SITES.map(x => `<tr><td><b>${x.id}</b><div class="muted" style="font-size:13px">${esc(x.name)}</div></td><td>${esc(projOf(x.project).name)}</td><td>${x.area}</td><td>${x.baseline}</td><td class="muted">${x.centroid}</td></tr>`).join('')}</tbody>
-  </table></div>
-  <h3 style="margin-bottom:6px">Imagery and alerts</h3>
+  <h3 style="margin-bottom:14px">Project map</h3>
+  <div class="card" style="margin-bottom:26px;padding:0;overflow:hidden;border-radius:12px">
+    <div id="mapContainer" style="width:100%;height:480px;background:#f0f0f0"></div>
+  </div>
+  <div class="grid dash">
+    <div class="card">
+      <div class="cardhead"><h3>Project locations</h3><small>Click map markers to select</small></div>
+      <div style="display:flex;flex-direction:column;gap:10px">
+        ${PROJECTS.map(p => `<div style="padding:12px;border:1px solid var(--line);border-radius:10px;cursor:pointer" onclick="selectProjectMap('${p.id}')">
+          <div style="display:flex;justify-content:space-between;align-items:start">
+            <div><b style="color:#0E1A14">${esc(p.name)}</b><p style="font-size:13px;color:var(--muted);margin-top:2px">${p.country} · ${p.type}</p></div>
+            <span style="font-size:11px;padding:4px 8px;border-radius:6px;background:${p.status==='Monitoring'?'#D4EDDA':'#FFF3CD'};color:${p.status==='Monitoring'?'#155724':'#856404'}">${p.status}</span>
+          </div>
+          <p style="font-size:12px;color:var(--muted);margin-top:6px">Land area & MRV data updates regularly</p>
+        </div>`).join('')}
+      </div>
+    </div>
+  </div>
+  <script>
+    setTimeout(()=>{
+      if(window.L && document.getElementById('mapContainer')){
+        const map = L.map('mapContainer').setView([2, 10], 4);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap'}).addTo(map);
+        const colors = {Monitoring:'#2F7D4F',Onboarding:'#F0B940',Prospective:'#B0BEC5'};
+        PROJECTS.forEach(p=>{
+          L.circleMarker([p.c[0], p.c[1]], {radius:12, fillColor:colors[p.status]||'#999', color:'#fff', weight:2, opacity:1, fillOpacity:0.8})
+            .bindPopup('<b>'+esc(p.name)+'</b><br>'+p.country+'<br>'+p.type)
+            .on('click', function(){ selectProjectMap('${p.id}'); })
+            .addTo(map);
+        });
+      }
+    }, 100);
+  </script>
+  <h3 style="margin-bottom:6px;margin-top:26px">Imagery and alerts</h3>
   <p class="muted" style="font-size:14px;margin-bottom:14px">Click an alert to change its status. Values are sample data.</p>
   <div class="card tablewrap"><table class="table">
     <thead><tr><th>Scene</th><th>Sensor</th><th>Date</th><th>Reading</th><th>Alert</th></tr></thead>
     <tbody>${IMAGERY.map((x,i) => `<tr><td><b>${x.scene}</b></td><td>${esc(x.sensor)}</td><td>${x.date}</td><td>${esc(x.metric)}</td><td>${chip(S.alerts[i], `setAlert(${i})`, 'Click to change alert status')}</td></tr>`).join('')}</tbody>
   </table></div>`;
-  return shell(body, 'Sites and imagery', 'Polygons, optical and radar scenes, and disturbance alerts for each site.');
+  return shell(body, 'Sites & map', 'Interactive project map, locations, and satellite imagery.');
 }
+
+function selectProjectMap(id){ S.prefProject = id; S.route = 'projects'; render(); window.scrollTo({top:0}); }
 
 function baselinesView(){
   const body = `<div class="card tablewrap"><table class="table">
