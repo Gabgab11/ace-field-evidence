@@ -6,14 +6,22 @@
 <title>ACE Field Evidence · Digital MRV</title>
 <style>
 :root{
-  --bg:#F5F6F2; --surface:#FFFFFF; --soft:#F0F3EE; --line:#E5EAE3;
-  --ink:#0E1A14; --text:#0E1A14; --paper:#0E1A14; --canopy:#0E1A14; --canopy2:#FFFFFF; --canopy3:#F0F3EE;
-  --muted:#6B7A70; --green:#2F7D4F; --moss:#2F7D4F; --green-soft:#E3F1E7;
+  --bg:#F8F9FA; --surface:rgba(255,255,255,0.7); --soft:rgba(240,243,238,0.5); --line:rgba(229,234,227,0.3);
+  --ink:#0E1A14; --text:#0E1A14; --paper:#0E1A14; --canopy:#0E1A14; --canopy2:#FFFFFF; --canopy3:rgba(240,243,238,0.8);
+  --muted:#6B7A70; --green:#2F7D4F; --moss:#2F7D4F; --green-soft:rgba(227,241,231,0.6);
   --ochre:#E0A93B; --sky:#2F6F92; --clay:#B5472C;
-  --r-card:22px; --r-ctl:12px; --r-pill:999px;
+  --r-card:24px; --r-ctl:14px; --r-pill:999px;
   --serif:"Inter","Helvetica Neue",Arial,system-ui,sans-serif;
   --sans:"Inter","Helvetica Neue",Arial,system-ui,-apple-system,"Segoe UI",sans-serif;
-  --shadow:0 1px 2px rgba(14,26,20,.04),0 12px 32px rgba(14,26,20,.06);
+  --shadow:0 8px 32px rgba(14,26,20,.08),0 2px 8px rgba(14,26,20,.04);
+  --blur:10px;
+}
+@media (prefers-color-scheme:dark){
+  :root{
+    --bg:#0F1419; --surface:rgba(20,30,28,0.6); --soft:rgba(30,50,45,0.4); --line:rgba(107,122,112,0.2);
+    --ink:#F5F6F2; --text:#F5F6F2; --muted:#9BA69D; --green-soft:rgba(47,125,79,0.3);
+    --shadow:0 8px 32px rgba(0,0,0,.3),0 2px 8px rgba(0,0,0,.1);
+  }
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{min-height:100%}
@@ -79,7 +87,7 @@ input[type=checkbox]{width:18px;height:18px;accent-color:var(--green)}
 
 /* ---------- App shell ---------- */
 .app{display:grid;grid-template-columns:248px 1fr;min-height:100vh}
-.side{background:var(--surface);border-right:1px solid var(--line);padding:26px 16px;display:flex;flex-direction:column;position:sticky;top:0;height:100vh;overflow:auto}
+.side{background:var(--surface);backdrop-filter:blur(var(--blur));border-right:1px solid var(--line);padding:32px 20px;display:flex;flex-direction:column;position:sticky;top:0;height:100vh;overflow:auto}
 .brand{display:flex;align-items:center;gap:12px;padding:2px 10px 30px}
 .brand b{font-size:16px;font-weight:700;display:block;line-height:1.15;letter-spacing:-.02em}
 .brand small{color:var(--muted);font-size:12.5px;font-weight:500}
@@ -96,14 +104,14 @@ input[type=checkbox]{width:18px;height:18px;accent-color:var(--green)}
 .me b{display:block;font-size:14px}
 .me small{color:var(--muted);font-size:12.5px}
 .main{min-width:0;display:flex;flex-direction:column}
-.topbar{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:18px 40px;background:rgba(245,246,242,.85);backdrop-filter:blur(10px);position:sticky;top:0;z-index:4}
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:24px 40px;background:var(--surface);backdrop-filter:blur(var(--blur));border-bottom:1px solid var(--line);position:sticky;top:0;z-index:4}
 .topbar .crumb{color:var(--muted);font-size:13.5px;font-weight:500}
 .search{display:flex;align-items:center;gap:10px;background:var(--surface);border:1px solid #D9E0D6;border-radius:var(--r-pill);padding:9px 16px;min-width:280px}
 .search span{color:var(--muted);font-size:13.5px;font-weight:600}
 .search input{border:0;background:none;padding:0;width:100%;box-shadow:none}
 .search input:focus{border:0;box-shadow:none}
 .roletag{font-size:12.5px;font-weight:600;padding:6px 12px;border-radius:var(--r-pill);background:var(--green-soft);color:var(--green)}
-.content{padding:8px 40px 64px;max-width:1280px;width:100%}
+.content{padding:32px 48px 80px;max-width:1280px;width:100%}
 .pagehead{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap;margin:8px 0 28px}
 .pagehead p{color:var(--muted);margin-top:8px;max-width:60ch;font-size:15.5px}
 
@@ -130,8 +138,9 @@ input[type=checkbox]{width:18px;height:18px;accent-color:var(--green)}
 }
 
 /* ---------- Cards ---------- */
-.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-card);padding:24px;box-shadow:var(--shadow)}
-.card.flat{background:transparent;box-shadow:none}
+.card{background:var(--surface);backdrop-filter:blur(var(--blur));border:1px solid var(--line);border-radius:var(--r-card);padding:28px;box-shadow:var(--shadow);transition:all .2s ease}
+.card:hover{background:rgba(255,255,255,0.75);backdrop-filter:blur(calc(var(--blur) * 1.2))}
+.card.flat{background:transparent;box-shadow:none;backdrop-filter:none}
 .grid{display:grid;gap:20px}
 .k4{grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
 .dash{grid-template-columns:1.5fr 1fr}
@@ -380,12 +389,19 @@ input[type=checkbox]{width:18px;height:18px;accent-color:var(--green)}
   .tablewrap{-webkit-overflow-scrolling:touch}
   .setrow{flex-wrap:wrap}
 }
+
+/* ---------- Help/Support Button ---------- */
+#helpBtn{position:fixed;bottom:32px;right:32px;width:56px;height:56px;border-radius:50%;background:var(--green);color:#fff;border:2px solid rgba(255,255,255,0.2);cursor:pointer;font-size:24px;display:grid;place-items:center;box-shadow:0 8px 24px rgba(47,125,79,.3);z-index:100;transition:all .3s ease}
+#helpBtn:hover{transform:scale(1.1);box-shadow:0 12px 32px rgba(47,125,79,.4)}
+#helpBtn:active{transform:scale(.95)}
+@media(max-width:620px){#helpBtn{bottom:24px;right:24px;width:48px;height:48px;font-size:20px}}
 </style>
 </head>
 <body>
 <div id="splash" role="status" aria-label="Loading Field Evidence"><canvas id="splashCanvas"></canvas></div>
 <div id="root"></div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
+<button id="helpBtn" title="Help & Support" onclick="if(window.help)help();else alert('Help Center - Tips, guides, and support contacts coming soon!')">?</button>
 
 <script>
 /* ---------- Config ---------- */
