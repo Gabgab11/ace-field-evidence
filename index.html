@@ -564,8 +564,15 @@ function getRandomTrivia(count=3){ const shuffled = shuffleTrivia(); return shuf
 
 let splashTimers=[];
 function splashShow(n){
+  console.log('splashShow called with', n);
   splashTimers.forEach(clearTimeout); splashTimers=[];
-  document.querySelectorAll('.scr').forEach((s,i)=>s.classList.toggle('on', i===n-1));
+  const screens = document.querySelectorAll('#splash-overlay .scr');
+  console.log('Found screens:', screens.length);
+  screens.forEach((s,i)=>{
+    const shouldBeOn = (i===n-1);
+    s.classList.toggle('on', shouldBeOn);
+    console.log('Screen', i, 'on:', shouldBeOn);
+  });
   if(n===2) loadTrivia();
 }
 
